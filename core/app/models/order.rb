@@ -73,6 +73,10 @@ class Order < ActiveRecord::Base
     total.to_f > 0.0
   end
 
+  def amount
+    line_items.map(&:amount).sum
+  end
+
   # Indicates the number of items in the order
   def item_count
     line_items.map(&:quantity).sum
@@ -454,7 +458,7 @@ class Order < ActiveRecord::Base
   def round_money(n)
     (n*100).round / 100.0
   end
-  
+
   # Updates the following Order total values:
   #
   # +payment_total+      The total value of all finalized Payments (NOTE: non-finalized Payments are excluded)
