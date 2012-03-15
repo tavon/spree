@@ -32,7 +32,8 @@ class Gateway::Beanstream < Gateway
   end
 
   def capture(transaction, creditcard, gateway_options)
-    beanstream_gateway.capture((transaction.amount*100).round, transaction.response_code, gateway_options)
+    transaction = (transaction.amount * 100).round if payment_profiles_supported?
+    beanstream_gateway.capture(transaction, transaction.response_code, gateway_options)
   end
 
   def void(transaction_response, creditcard, gateway_options)
